@@ -12,8 +12,13 @@
 case node[:platform]
 when "centos"
 
-  package "sqlite-devel" do
-    action :install
+  include_recipe "build-essential"
+  include_recipe "git"
+
+  %w{sqlite-devel openssl-devel}.each do |p|
+    package p do
+      action :install
+    end
   end
 
   execute "rbenv_install" do
