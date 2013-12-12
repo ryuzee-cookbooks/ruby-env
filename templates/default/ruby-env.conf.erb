@@ -1,0 +1,6 @@
+location / {
+    if (!-f $request_filename) {
+        proxy_pass http://<%= node["ruby-env"]["unicorn_sock_name"] %>;
+        break;
+    }
+}

@@ -1,0 +1,3 @@
+upstream <%= node["ruby-env"]["unicorn_sock_name"] %> {
+    server unix:/tmp/<%= node["ruby-env"]["unicorn_sock_name"] %>.sock;
+}
