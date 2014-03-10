@@ -67,6 +67,7 @@ when "centos"
       user #{node['ruby-env']['user']}
       group #{node['ruby-env']['group']}
       environment 'HOME' => "/home/#{node['ruby-env']['user']}"
+      not_if { system("/home/#{node['ruby-env']['user']}/.rbenv/shims/gem which #{p}") }
     end
   end
 
