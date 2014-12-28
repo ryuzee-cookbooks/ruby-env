@@ -1,6 +1,6 @@
 ---
 driver:
-  name: docker 
+  name: docker
   socket: <%= ENV['DOCKER_HOST'] %>
 driver_config:
   require_chef_omnibus: true
@@ -14,7 +14,10 @@ platforms:
 
 suites:
 - name: default
-  run_list: 
+  run_list:
     - "recipe[ruby-env::default]"
     - "recipe[ruby-env::nginx]"
-  attributes: {}
+  attributes:
+    ruby-env:
+      user: "kitchen"
+      group: "kitchen"
