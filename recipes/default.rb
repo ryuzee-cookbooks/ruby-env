@@ -21,13 +21,21 @@ when "centos"
     end
   end
 
-  execute "rbenv_install" do
-    command "git clone https://github.com/sstephenson/rbenv.git /home/#{node['ruby-env']['user']}/.rbenv"
+  git "/home/#{node['ruby-env']['user']}/.rbenv" do
+    repository "https://github.com/sstephenson/rbenv.git"
     user #{node['ruby-env']['user']}
     group #{node['ruby-env']['group']}
-    environment 'HOME' => "/home/#{node['ruby-env']['user']}"
     not_if { File.exists?("/home/#{node['ruby-env']['user']}/.rbenv") }
+    action :sync
   end
+
+#  execute "rbenv_install" do
+#    command "git clone https://github.com/sstephenson/rbenv.git /home/#{node['ruby-env']['user']}/.rbenv"
+#    user #{node['ruby-env']['user']}
+#    group #{node['ruby-env']['group']}
+#    environment 'HOME' => "/home/#{node['ruby-env']['user']}"
+#    not_if { File.exists?("/home/#{node['ruby-env']['user']}/.rbenv") }
+#  end
 
   template ".bash_profile" do
     source ".bash_profile.erb"
@@ -62,7 +70,7 @@ when "centos"
   end
 
   %w{rbenv-rehash unicorn bundler rails}.each do |p| 
-    execute "gem install #{p}" do
+    execute "gem install #{p} --no-ri --no-rdoc" do
       command "/home/#{node['ruby-env']['user']}/.rbenv/shims/gem install #{p}"
       user #{node['ruby-env']['user']}
       group #{node['ruby-env']['group']}
