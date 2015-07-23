@@ -16,7 +16,7 @@ when "centos"
   include_recipe "git"
   include_recipe "ca-certificates::default"
 
-  %w{sqlite-devel openssl-devel}.each do |p|
+  %w{sqlite-devel openssl-devel readline-devel}.each do |p|
     package p do
       action :install
     end
